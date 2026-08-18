@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useTheme } from "vuetify";
 import { marked } from "marked";
 import readme from "../../README.md?raw";
+const theme = useTheme();
+const toggleTheme = () => { theme.global.name.value = theme.global.current.value.dark ? "light" : "dark"; };
 const logo = import.meta.env.BASE_URL + "gad.svg";
 const readmeHtml = marked.parse(readme) as string;
 </script>
@@ -12,6 +15,7 @@ const readmeHtml = marked.parse(readme) as string;
         vscode-gad
       </v-app-bar-title>
       <v-spacer />
+      <v-btn :icon="theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click="toggleTheme" variant="text" title="Toggle theme" />
       <v-btn href="https://marketplace.visualstudio.com/" icon="mdi-microsoft-visual-studio-code" variant="text" />
       <v-btn href="https://github.com/gad-lang/vscode-gad" icon="mdi-github" variant="text" />
     </v-app-bar>
