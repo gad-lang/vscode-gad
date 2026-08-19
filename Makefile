@@ -9,9 +9,10 @@ BUN ?= bun
 help:
 	@grep -E '^## ' $(MAKEFILE_LIST) | sed 's/^## /  /'
 
-## install: install dependencies
+## install: install dependencies (and the gad-textmate bundle submodule)
 .PHONY: install
 install:
+	git submodule update --init
 	$(BUN) install
 
 ## compile: compile the TypeScript sources (out/)

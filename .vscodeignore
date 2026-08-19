@@ -1,0 +1,14 @@
+.gitmodules
+.gitignore
+Makefile
+CLAUDE.md
+tsconfig.json
+site/**
+**/*.map
+# Bundle comes from the gad-textmate submodule: keep syntaxes/, schemas/ and the
+# language-configuration files, drop the submodule's own repo cruft.
+gad-textmate/.git
+gad-textmate/.github/**
+gad-textmate/README.md
+gad-textmate/LICENSE
+gad-textmate/package.json

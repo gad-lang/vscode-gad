@@ -56,46 +56,46 @@
         "id": "gad",
         "aliases": ["Gad", "gad"],
         "extensions": [".gad", ".gadt"],
-        "configuration": "./language-configuration.json"
+        "configuration": "./gad-textmate/language-configuration.json"
       },
       {
         "id": "gadx",
         "aliases": ["Gadx", "gadx"],
         "extensions": [".gadx"],
-        "configuration": "./gadx-language-configuration.json"
+        "configuration": "./gad-textmate/gadx-language-configuration.json"
       }
     ],
     "grammars": [
       {
         "language": "gad",
         "scopeName": "source.gad",
-        "path": "./syntaxes/gad.tmLanguage.json"
+        "path": "./gad-textmate/syntaxes/gad.tmLanguage.json"
       },
       {
         "language": "gadx",
         "scopeName": "source.gadx",
-        "path": "./syntaxes/gadx.tmLanguage.json"
+        "path": "./gad-textmate/syntaxes/gadx.tmLanguage.json"
       }
     ],
     "breakpoints": [{ "language": "gad" }, { "language": "gadx" }],
     "yamlValidation": [
       {
         "fileMatch": ".gad.yaml",
-        "url": "./schemas/gad-config.schema.json"
+        "url": "./gad-textmate/schemas/gad-config.schema.json"
       },
       {
         "fileMatch": ".gadide.yaml",
-        "url": "./schemas/gadide-config.schema.json"
+        "url": "./gad-textmate/schemas/gadide-config.schema.json"
       }
     ],
     "jsonValidation": [
       {
         "fileMatch": ".gad.yaml",
-        "url": "./schemas/gad-config.schema.json"
+        "url": "./gad-textmate/schemas/gad-config.schema.json"
       },
       {
         "fileMatch": ".gadide.yaml",
-        "url": "./schemas/gadide-config.schema.json"
+        "url": "./gad-textmate/schemas/gadide-config.schema.json"
       }
     ],
     "configuration": {

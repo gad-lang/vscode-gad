@@ -33,11 +33,23 @@ Open a `.gad` file and press **F5**, or add a launch configuration:
 }
 ```
 
+## Syntax highlighting
+
+Grammars, language configuration and config schemas come from the shared
+[`gad-textmate`](https://github.com/gad-lang/gad-textmate) bundle, vendored here
+as the `gad-textmate` git submodule (the same bundle the IntelliJ plugin uses).
+`gad.tmLanguage.json` is generated from the Gad compiler vocabulary — don't
+hand-edit it.
+
 ## Build
 
+Check out the submodule first (or clone with `--recurse-submodules`):
+
 ```sh
+git submodule update --init   # populate gad-textmate (grammars/schemas)
 bun install
 bun run compile     # tsc -> out/extension.js
+bun run package     # -> vscode-gad.vsix
 ```
 
 The extension registers a debug adapter that runs `gad debug --dap` over stdio;
