@@ -50,6 +50,24 @@
         }
       ]
     },
+    "interpolation": {
+      "name": "meta.interpolation.gad",
+      "begin": "\\{",
+      "end": "\\}",
+      "patterns": [
+        {
+          "include": "#interpolation"
+        },
+        {
+          "include": "$self"
+        }
+      ],
+      "captures": {
+        "0": {
+          "name": "punctuation.section.embedded.gad"
+        }
+      }
+    },
     "keywords": {
       "patterns": [
         {
@@ -96,6 +114,44 @@
     },
     "strings": {
       "patterns": [
+        {
+          "name": "string.quoted.triple.interpolated.gad",
+          "begin": "#\"\"\"",
+          "end": "\"\"\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.gad",
+              "match": "\\\\."
+            },
+            {
+              "include": "#interpolation"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.double.interpolated.gad",
+          "begin": "#\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.gad",
+              "match": "\\\\."
+            },
+            {
+              "include": "#interpolation"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.raw.interpolated.gad",
+          "begin": "#`",
+          "end": "`",
+          "patterns": [
+            {
+              "include": "#interpolation"
+            }
+          ]
+        },
         {
           "name": "string.quoted.triple.gad",
           "begin": "\"\"\"",
