@@ -189,7 +189,7 @@ export function activate(context: vscode.ExtensionContext): void {
   // controls whether the workspace .gad.yaml is applied; `gad.path` is the
   // executable path.
   context.subscriptions.push(
-    vscode.languages.registerDocumentFormattingEditProvider("gad", {
+    vscode.languages.registerDocumentFormattingEditProvider(GAD_LANGUAGES, {
       async provideDocumentFormattingEdits(
         document: vscode.TextDocument,
       ): Promise<vscode.TextEdit[]> {
@@ -199,6 +199,9 @@ export function activate(context: vscode.ExtensionContext): void {
 
         const args = ["fmt"];
         if (!useConfig) args.push("--no-config");
+        // Name the piped buffer so `gad fmt` picks the right dialect
+        // (.gad / .gadt / .gadx) rather than assuming plain Gad on stdin.
+        args.push("--stdin-name", path.basename(document.uri.fsPath));
         args.push("-"); // stdin mode
 
         const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
