@@ -223,6 +223,102 @@ export function activate(context: vscode.ExtensionContext): void {
       },
     }),
   );
+
+  // Go-to-definition via the `gad def` scope resolver: send the buffer and the
+  // caret's byte offset, navigate to the returned declaration (line/column).
+  context.subscriptions.push(
+    vscode.languages.registerDefinitionProvider(GAD_LANGUAGES, {
+      async provideDefinition(document, position) {
+        const text = document.getText();
+        const off = byteOffset(text, document.offsetAt(position));
+        const res = await runGadLang(document, ["def", "--offset", String(off), "-"], text);
+        if (!res || res.code !== 0 || !res.stdout.trim()) return undefined;
+        let j: { line?: number; column?: number } | null;
+        try {
+          j = JSON.parse(res.stdout);
+        } catch {
+          return undefined;
+        }
+        if (!j) return undefined;
+        const target = new vscode.Position((j.line ?? 1) - 1, (j.column ?? 1) - 1);
+        return new vscode.Location(document.uri, target);
+      },
+    }),
+  );
+
+  // Auto-completion via the `gad complete` language service: in-scope
+  // identifiers, keywords, builtins and (after `.`) the receiver's real members,
+  // each with documentation. Triggered on typing and on `.`.
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(
+      GAD_LANGUAGES,
+      {
+        async provideCompletionItems(document, position) {
+          const text = document.getText();
+          const off = byteOffset(text, document.offsetAt(position));
+          const res = await runGadLang(document, ["complete", "--offset", String(off), "-"], text);
+          if (!res || res.code !== 0 || !res.stdout.trim()) return undefined;
+          let items: { label: string; kind: string; doc?: string }[];
+          try {
+            items = JSON.parse(res.stdout);
+          } catch {
+            return undefined;
+          }
+          return items.map((it) => {
+            const ci = new vscode.CompletionItem(it.label, completionKind(it.kind));
+            ci.detail = it.kind;
+            if (it.doc) ci.documentation = new vscode.MarkdownString(it.doc);
+            return ci;
+          });
+        },
+      },
+      ".",
+    ),
+  );
+}
+
+// runGadLang runs a `gad` language-service subcommand for document, feeding the
+// buffer on stdin, resolving `gad.path` and the workspace cwd like the other
+// commands. Returns undefined when the language is not Gad.
+function runGadLang(
+  document: vscode.TextDocument,
+  args: string[],
+  input: string,
+): Promise<{ stdout: string; stderr: string; code: number }> | undefined {
+  if (!isGadLanguage(document.languageId)) return undefined;
+  const gadPath = vscode.workspace.getConfiguration("gad").get<string>("path", "gad");
+  const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+  const cwd = workspaceFolder?.uri.fsPath ?? path.dirname(document.uri.fsPath);
+  return runGadFmt(gadPath, args, input, cwd);
+}
+
+// byteOffset converts a UTF-16 code-unit offset (VS Code) to the UTF-8 byte
+// offset the `gad` CLI expects.
+function byteOffset(text: string, charOffset: number): number {
+  return Buffer.byteLength(text.slice(0, charOffset), "utf8");
+}
+
+// completionKind maps a `gad complete` kind to a VS Code CompletionItemKind.
+function completionKind(kind: string): vscode.CompletionItemKind {
+  switch (kind) {
+    case "function":
+    case "method":
+      return vscode.CompletionItemKind.Function;
+    case "keyword":
+      return vscode.CompletionItemKind.Keyword;
+    case "constant":
+      return vscode.CompletionItemKind.Constant;
+    case "property":
+      return vscode.CompletionItemKind.Property;
+    case "field":
+    case "key":
+    case "export":
+      return vscode.CompletionItemKind.Field;
+    case "variable":
+      return vscode.CompletionItemKind.Variable;
+    default:
+      return vscode.CompletionItemKind.Text;
+  }
 }
 
 export function deactivate(): void {
