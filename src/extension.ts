@@ -292,7 +292,13 @@ function runGadLang(
   const gadPath = vscode.workspace.getConfiguration("gad").get<string>("path", "gad");
   const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
   const cwd = workspaceFolder?.uri.fsPath ?? path.dirname(document.uri.fsPath);
-  return runGadFmt(gadPath, args, input, cwd);
+  // Name the piped buffer so the CLI picks the dialect (.gad / .gadx). Insert
+  // before the trailing `-` (stdin) marker.
+  const withName = args.slice(0, -1).concat(
+    ["--stdin-name", path.basename(document.uri.fsPath)],
+    args.slice(-1),
+  );
+  return runGadFmt(gadPath, withName, input, cwd);
 }
 
 // byteOffset converts a UTF-16 code-unit offset (VS Code) to the UTF-8 byte
