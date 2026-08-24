@@ -198,6 +198,17 @@
             "settings": {
               "foreground": "#C0843A"
             }
+          },
+          {
+            "//": "Gad Template `{%`/`%}` island markers: a strong, bold highlight so the code islands stand out from the literal text. Configurable like any token color.",
+            "scope": [
+              "keyword.control.template.begin.gadt",
+              "keyword.control.template.end.gadt"
+            ],
+            "settings": {
+              "foreground": "#D1416B",
+              "fontStyle": "bold"
+            }
           }
         ]
       }
