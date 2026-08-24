@@ -45,7 +45,7 @@ let runTerminal: vscode.Terminal | undefined;
 
 // Language ids this extension runs/debugs: plain Gad (.gad/.gadt) and Gadx
 // templates (.gadx), both compiled and debugged by the same `gad` CLI.
-const GAD_LANGUAGES = ["gad", "gadx"];
+const GAD_LANGUAGES = ["gad", "gadt", "gadx"];
 
 function isGadLanguage(languageId: string): boolean {
   return GAD_LANGUAGES.includes(languageId);

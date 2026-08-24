@@ -8,11 +8,15 @@
   "engines": {
     "vscode": "^1.75.0"
   },
-  "categories": ["Programming Languages", "Debuggers"],
+  "categories": [
+    "Programming Languages",
+    "Debuggers"
+  ],
   "main": "./out/extension.js",
   "activationEvents": [
     "onDebugResolve:gad",
     "onLanguage:gad",
+    "onLanguage:gadt",
     "onLanguage:gadx"
   ],
   "contributes": {
@@ -38,30 +42,75 @@
     ],
     "menus": {
       "commandPalette": [
-        { "command": "gad.run", "when": "editorLangId == gad || editorLangId == gadx" },
-        { "command": "gad.debug", "when": "editorLangId == gad || editorLangId == gadx" },
-        { "command": "gad.openConfig" }
+        {
+          "command": "gad.run",
+          "when": "editorLangId == gad || editorLangId == gadt || editorLangId == gadx"
+        },
+        {
+          "command": "gad.debug",
+          "when": "editorLangId == gad || editorLangId == gadt || editorLangId == gadx"
+        },
+        {
+          "command": "gad.openConfig"
+        }
       ],
       "editor/title/run": [
-        { "command": "gad.run", "when": "editorLangId == gad || editorLangId == gadx", "group": "navigation@1" },
-        { "command": "gad.debug", "when": "editorLangId == gad || editorLangId == gadx", "group": "navigation@2" }
+        {
+          "command": "gad.run",
+          "when": "editorLangId == gad || editorLangId == gadt || editorLangId == gadx",
+          "group": "navigation@1"
+        },
+        {
+          "command": "gad.debug",
+          "when": "editorLangId == gad || editorLangId == gadt || editorLangId == gadx",
+          "group": "navigation@2"
+        }
       ],
       "editor/context": [
-        { "command": "gad.run", "when": "editorLangId == gad || editorLangId == gadx", "group": "gad@1" },
-        { "command": "gad.debug", "when": "editorLangId == gad || editorLangId == gadx", "group": "gad@2" }
+        {
+          "command": "gad.run",
+          "when": "editorLangId == gad || editorLangId == gadt || editorLangId == gadx",
+          "group": "gad@1"
+        },
+        {
+          "command": "gad.debug",
+          "when": "editorLangId == gad || editorLangId == gadt || editorLangId == gadx",
+          "group": "gad@2"
+        }
       ]
     },
     "languages": [
       {
         "id": "gad",
-        "aliases": ["Gad", "gad"],
-        "extensions": [".gad", ".gadt"],
+        "aliases": [
+          "Gad",
+          "gad"
+        ],
+        "extensions": [
+          ".gad"
+        ],
+        "configuration": "./gad-textmate/language-configuration.json"
+      },
+      {
+        "id": "gadt",
+        "aliases": [
+          "Gad Template",
+          "gadt"
+        ],
+        "extensions": [
+          ".gadt"
+        ],
         "configuration": "./gad-textmate/language-configuration.json"
       },
       {
         "id": "gadx",
-        "aliases": ["Gadx", "gadx"],
-        "extensions": [".gadx"],
+        "aliases": [
+          "Gadx",
+          "gadx"
+        ],
+        "extensions": [
+          ".gadx"
+        ],
         "configuration": "./gad-textmate/gadx-language-configuration.json"
       }
     ],
@@ -72,12 +121,27 @@
         "path": "./gad-textmate/syntaxes/gad.tmLanguage.json"
       },
       {
+        "language": "gadt",
+        "scopeName": "source.gadt",
+        "path": "./gad-textmate/syntaxes/gadt.tmLanguage.json"
+      },
+      {
         "language": "gadx",
         "scopeName": "source.gadx",
         "path": "./gad-textmate/syntaxes/gadx.tmLanguage.json"
       }
     ],
-    "breakpoints": [{ "language": "gad" }, { "language": "gadx" }],
+    "breakpoints": [
+      {
+        "language": "gad"
+      },
+      {
+        "language": "gadt"
+      },
+      {
+        "language": "gadx"
+      }
+    ],
     "yamlValidation": [
       {
         "fileMatch": ".gad.yaml",
@@ -142,10 +206,16 @@
       {
         "type": "gad",
         "label": "Gad Debug",
-        "languages": ["gad", "gadx"],
+        "languages": [
+          "gad",
+          "gadt",
+          "gadx"
+        ],
         "configurationAttributes": {
           "launch": {
-            "required": ["program"],
+            "required": [
+              "program"
+            ],
             "properties": {
               "program": {
                 "type": "string",
