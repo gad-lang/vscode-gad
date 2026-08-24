@@ -209,6 +209,17 @@
               "foreground": "#D1416B",
               "fontStyle": "bold"
             }
+          },
+          {
+            "//": "Gadx interpolation `{= … }` braces: a strong, bold highlight so the interpolation delimiters are visible (their body is embedded Gad).",
+            "scope": [
+              "keyword.control.interpolation.begin.gadx",
+              "keyword.control.interpolation.end.gadx"
+            ],
+            "settings": {
+              "foreground": "#D1416B",
+              "fontStyle": "bold"
+            }
           }
         ]
       }
