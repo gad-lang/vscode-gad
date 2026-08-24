@@ -118,6 +118,26 @@
         }
       }
     },
+    "configurationDefaults": {
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "//": "Gad/Gadx doc comments (/// and /** … **/) in a soft, theme-neutral orange. Only the plain doc text is tinted — Markdown markup.bold/italic/code inside a block keep their own colors (more specific scopes win).",
+            "scope": [
+              "comment.documentation.line.gad",
+              "comment.documentation.block.gad",
+              "comment.documentation.block.markdown.gad",
+              "comment.documentation.line.gadx",
+              "comment.documentation.block.gadx",
+              "comment.documentation.block.markdown.gadx"
+            ],
+            "settings": {
+              "foreground": "#C0843A"
+            }
+          }
+        ]
+      }
+    },
     "debuggers": [
       {
         "type": "gad",
