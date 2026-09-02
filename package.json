@@ -2,7 +2,7 @@
   "name": "vscode-gad",
   "displayName": "Gad",
   "description": "Gad and Gadx (.gadx) language support and debugging for VS Code (runs `gad debug --dap`).",
-  "version": "0.1.1-rc.2",
+  "version": "0.1.1-rc.3",
   "publisher": "gad-lang",
   "license": "MIT",
   "engines": {
