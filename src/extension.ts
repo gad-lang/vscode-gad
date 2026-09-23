@@ -325,6 +325,17 @@ function completionKind(kind: string): vscode.CompletionItemKind {
       return vscode.CompletionItemKind.Field;
     case "variable":
       return vscode.CompletionItemKind.Variable;
+    // Named type declarations (`class`, `mixin`, marker/typed array `type`,
+    // `interface`, `enum`).
+    case "class":
+    case "mixin":
+      return vscode.CompletionItemKind.Class;
+    case "interface":
+      return vscode.CompletionItemKind.Interface;
+    case "enum":
+      return vscode.CompletionItemKind.Enum;
+    case "type":
+      return vscode.CompletionItemKind.Struct;
     default:
       return vscode.CompletionItemKind.Text;
   }
